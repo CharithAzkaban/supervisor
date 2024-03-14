@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:supervisor/models/user.dart';
 import 'package:supervisor/providers/popup_provider.dart';
 import 'package:supervisor/services/auth_services.dart';
@@ -12,45 +14,96 @@ class AuthProvider extends ChangeNotifier {
 
   User? get user => _user;
 
-  void refresh(BuildContext context) {
-    waiting(
-      context,
-      outTapDismissible: false,
-      futureTask: () async {
-        provider<PopupProvider>(context)
-            .setWaitingMessage('Obtaining session...');
-        return getStringPref(PrefEnum.accesstoken).then((accessToken) {
-          if (notNull(accessToken)) {
-            return refreshTokenAPI(context);
+  void editProfile(
+    BuildContext context, {
+    XFile? selectedImage,
+    required String fname,
+    required String lname,
+    required String mobile,
+    required String email,
+    DateTime? birthdate,
+    String? address,
+  }) =>
+      waiting(
+        context,
+        futureTask: () => editProfileAPI(
+          context,
+          user: _user,
+          selectedImage: selectedImage,
+          fname: fname,
+          lname: lname,
+          mobile: mobile,
+          birthdate: birthdate,
+          email: email,
+          address: address,
+        ),
+        afterTask: (editedUser) {
+          if (editedUser is User) {
+            _user = editedUser;
+            notifyListeners();
+            pop(context);
           }
-          return false;
-        });
-      },
-      afterTask: (result) {
-        if (result is User) {
-          _user = result;
-          navigate(
-            context,
-            page: PageEnum.dashboard,
-            replace: true,
-          );
-        } else {
-          navigate(
-            context,
-            page: PageEnum.signin,
-            replace: true,
-          );
-          if (!notNull(result)) {
-            notify(
+        },
+      );
+
+  void refresh(BuildContext context) => waiting(
+        context,
+        outTapDismissible: false,
+        futureTask: () async {
+          provider<PopupProvider>(context)
+              .setWaitingMessage('Obtaining session...');
+          return getStringPref(PrefEnum.accesstoken).then((accessToken) {
+            if (notNull(accessToken)) {
+              return refreshTokenAPI(context);
+            }
+            return false;
+          });
+        },
+        afterTask: (result) {
+          if (result is User) {
+            _user = result;
+            navigate(
               context,
-              messageColor: error,
-              message: 'Session has been expired!',
+              page: PageEnum.dashboard,
+              replace: true,
             );
+          } else {
+            navigate(
+              context,
+              page: PageEnum.signin,
+              replace: true,
+            );
+            if (!notNull(result)) {
+              notify(
+                context,
+                messageColor: error,
+                message: 'Session has been expired!',
+              );
+            }
           }
-        }
-      },
-    );
-  }
+        },
+      );
+
+  void resetPassword(
+    BuildContext context, {
+    required String oldPassword,
+    required String newPassword,
+  }) =>
+      waiting(
+        context,
+        futureTask: () => resetPasswordAPI(
+          context,
+          user: _user,
+          oldPassword: oldPassword,
+          newPassword: newPassword,
+        ),
+        afterTask: (isOk) {
+          if (isOk) {
+            pop(context);
+            context.go('/${ets(PageEnum.signin)}');
+          }
+        },
+      );
 
   void signin(
     BuildContext context, {

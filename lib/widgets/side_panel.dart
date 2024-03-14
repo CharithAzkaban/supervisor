@@ -72,6 +72,10 @@ class _SidePanelState extends State<SidePanel> {
               title: const PrimaryText('Edit Profile'),
               leading: const Icon(Icons.edit_rounded),
               onTap: () {
+                navigate(
+                  context,
+                  page: PageEnum.profile,
+                );
                 Scaffold.of(context).closeDrawer();
               },
             ),
@@ -80,6 +84,10 @@ class _SidePanelState extends State<SidePanel> {
               title: const PrimaryText('Change Password'),
               leading: const Icon(Icons.lock_rounded),
               onTap: () {
+                navigate(
+                  context,
+                  page: PageEnum.password,
+                );
                 Scaffold.of(context).closeDrawer();
               },
             ),

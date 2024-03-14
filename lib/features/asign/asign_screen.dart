@@ -33,8 +33,13 @@ class _AsignScreenState extends State<AsignScreen> {
     super.initState();
     _taskProvider = provider<TaskProvider>(context);
     _task = widget.state.extra as Task;
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _taskProvider.loadPerformers(context));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _taskProvider.loadTaskTypes(
+        context,
+        task: _task,
+      );
+      _taskProvider.loadPerformers(context);
+    });
   }
 
   @override
@@ -51,16 +56,21 @@ class _AsignScreenState extends State<AsignScreen> {
             color: white,
           ),
           actions: [
-            PrimaryIconButton(
-              onPressed: () => _taskProvider.asignTask(
-                context,
-                task: _task,
-                formKey: _formKey,
-                otherTypes: textOrNull(_otherController.text),
-              ),
-              icon: const Icon(
-                Icons.done_rounded,
-                color: white,
+            Consumer<TaskProvider>(
+              builder: (context, taskData, _) => PrimaryIconButton(
+                onPressed: (taskData.availableTypes.isNotEmpty &&
+                        taskData.performers.isNotEmpty)
+                    ? () => _taskProvider.asignTask(
+                          context,
+                          task: _task,
+                          formKey: _formKey,
+                          otherTypes: textOrNull(_otherController.text),
+                        )
+                    : null,
+                icon: const Icon(
+                  Icons.done_rounded,
+                  color: white,
+                ),
               ),
             ),
           ],
@@ -109,7 +119,7 @@ class _AsignScreenState extends State<AsignScreen> {
               Consumer<TaskProvider>(
                 builder: (context, taskData, _) => SliverList.builder(
                   itemBuilder: (context, index) {
-                    final tasks = _task.tasks ?? [];
+                    final tasks = taskData.availableTypes;
                     final type = tasks[index];
                     return CheckboxListTile(
                       value: taskData.checkedTypes.contains(type.id),
@@ -124,7 +134,7 @@ class _AsignScreenState extends State<AsignScreen> {
                       ),
                     );
                   },
-                  itemCount: _task.tasks?.length,
+                  itemCount: taskData.availableTypes.length,
                 ),
               ),
               const SliverToBoxAdapter(child: Gap(vGap: 10.0)),
@@ -172,6 +182,7 @@ class _AsignScreenState extends State<AsignScreen> {
 
   @override
   void dispose() {
+    _taskProvider.reset();
     _otherController.dispose();
     super.dispose();
   }

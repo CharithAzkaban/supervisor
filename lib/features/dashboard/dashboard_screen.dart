@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:supervisor/features/dashboard/widgets/task_card.dart';
-import 'package:supervisor/models/user.dart';
 import 'package:supervisor/providers/auth_provider.dart';
 import 'package:supervisor/providers/task_provider.dart';
 import 'package:supervisor/utils/consts.dart';
@@ -19,16 +19,12 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  late final AuthProvider _authProvider;
   late final TaskProvider _taskProvider;
-  late final User? _user;
 
   @override
   void initState() {
     super.initState();
-    _authProvider = provider<AuthProvider>(context);
     _taskProvider = provider<TaskProvider>(context);
-    _user = _authProvider.user;
   }
 
   @override
@@ -40,13 +36,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
         leading: Builder(builder: (ctx) {
           return PrimaryIconButton(
             onPressed: () => Scaffold.of(ctx).openDrawer(),
-            icon: netImage(
-              _user?.userImage,
-              errorWidget: assetImage(
-                ImageEnum.profile,
+            icon: Consumer<AuthProvider>(
+              builder: (context, authData, _) => netImage(
+                authData.user?.userImage,
+                errorWidget: assetImage(
+                  ImageEnum.profile,
+                  radius: 50.0,
+                ),
                 radius: 50.0,
               ),
-              radius: 50.0,
             ),
           );
         }),
@@ -58,9 +56,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               color: white,
               fontSize: 12.0,
             ),
-            PrimaryText(
-              '${_user?.userFirstName}',
-              color: white,
+            Consumer<AuthProvider>(
+              builder: (context, authData, _) => PrimaryText(
+                '${authData.user?.userFirstName}',
+                color: white,
+              ),
             ),
           ],
         ),
@@ -80,7 +80,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           child: Column(
             children: [
               const TaskCard(
-                label: 'Assigned',
+                label: 'Todo',
                 color: Colors.blue,
                 tasks: 3,
               ),
@@ -92,8 +92,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               const Gap(vGap: 10.0),
               TaskCard(
-                label: 'Submitted',
+                label: 'Performer Completed',
                 color: success,
+                tasks: 2,
+              ),
+              const Gap(vGap: 10.0),
+              TaskCard(
+                label: 'Supervisor Completed',
+                color: hexColor('#15910F'),
                 tasks: 2,
               ),
               const Gap(vGap: 10.0),

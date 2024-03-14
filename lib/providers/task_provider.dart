@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:supervisor/models/performer.dart';
 import 'package:supervisor/models/task.dart';
+import 'package:supervisor/models/task_type.dart';
 import 'package:supervisor/popups/asign_body.dart';
 import 'package:supervisor/providers/auth_provider.dart';
 import 'package:supervisor/services/task_services.dart';
@@ -16,10 +17,12 @@ import 'package:supervisor/widgets/primary_text.dart';
 
 class TaskProvider extends ChangeNotifier {
   final _checkedTypes = <int>[];
+  final _availableTypes = <TaskType>[];
   final _performers = <Performer>[];
   int? _selectedPerformerId;
 
   List<int> get checkedTypes => _checkedTypes;
+  List<TaskType> get availableTypes => _availableTypes;
   List<Performer> get performers => _performers;
   int? get selectedPerformerId => _selectedPerformerId;
 
@@ -61,7 +64,6 @@ class TaskProvider extends ChangeNotifier {
         ),
         afterTask: (isOk) {
           if (isOk) {
-            reset();
             pop(context);
           }
         },
@@ -69,15 +71,28 @@ class TaskProvider extends ChangeNotifier {
     }
   }
 
-  void loadPerformers(BuildContext context) async {
+  void loadPerformers(BuildContext context, {re}) async {
     _performers.clear();
     _performers.addAll(await getPerformersAPI(context));
     notifyListeners();
   }
 
+  void loadTaskTypes(
+    BuildContext context, {
+    required Task task,
+  }) async {
+    _availableTypes.clear();
+    _availableTypes.addAll(await getTaskTypesAPI(
+      context,
+      task: task,
+    ));
+    notifyListeners();
+  }
+
   void reset() {
+    _availableTypes.clear();
     _checkedTypes.clear();
-    _checkedTypes.clear();
+    _performers.clear();
     _selectedPerformerId = null;
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supervisor/providers/auth_provider.dart';
 import 'package:supervisor/utils/actions.dart';
+import 'package:supervisor/utils/consts.dart';
 import 'package:supervisor/utils/enums.dart';
 import 'package:supervisor/utils/methods.dart';
 import 'package:supervisor/widgets/gap.dart';
@@ -29,7 +30,6 @@ class _SigninScreenState extends State<SigninScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final dw = dWidth(context);
     return GestureDetector(
       onTap: () => unfocus(),
       child: Scaffold(
@@ -37,55 +37,56 @@ class _SigninScreenState extends State<SigninScreen> {
           child: SingleChildScrollView(
             child: Form(
               key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  assetImage(
-                    ImageEnum.logosingle,
-                    width: 150.0,
-                    height: 150.0,
-                  ),
-                  const Gap(vGap: 20.0),
-                  PrimaryTFF(
-                    keyboardType: TextInputType.emailAddress,
-                    width: dw * 0.8,
-                    controller: _emailController,
-                    labelText: 'Email',
-                    validator: (text) =>
-                        textOrEmpty(text).isEmpty ? 'Email is required!' : null,
-                    onFieldSubmitted: (_) => _passwordFocus.requestFocus(),
-                  ),
-                  const Gap(vGap: 10.0),
-                  PrimaryTFF(
-                    keyboardType: TextInputType.text,
-                    width: dw * 0.8,
-                    controller: _passwordController,
-                    focusNode: _passwordFocus,
-                    labelText: 'Password',
-                    obscureText: true,
-                    showEye: true,
-                    validator: (text) => textOrEmpty(text).isEmpty
-                        ? 'Password is required!'
-                        : null,
-                    onFieldSubmitted: (_) => _authProvider.signin(
-                      context,
-                      formKey: _formKey,
-                      email: _emailController.text.trim().toLowerCase(),
-                      password: _passwordController.text,
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    assetImage(
+                      ImageEnum.logosingle,
+                      width: 150.0,
+                      height: 150.0,
                     ),
-                  ),
-                  const Gap(vGap: 20.0),
-                  PrimaryButton(
-                    width: dw * 0.8,
-                    onPressed: () => _authProvider.signin(
-                      context,
-                      formKey: _formKey,
-                      email: _emailController.text.trim().toLowerCase(),
-                      password: _passwordController.text,
+                    const Gap(vGap: 20.0),
+                    PrimaryTFF(
+                      keyboardType: TextInputType.emailAddress,
+                      controller: _emailController,
+                      labelText: 'Email',
+                      validator: (text) =>
+                          textOrEmpty(text).isEmpty ? 'Email is required!' : null,
+                      onFieldSubmitted: (_) => _passwordFocus.requestFocus(),
                     ),
-                    label: 'SIGN IN',
-                  ),
-                ],
+                    const Gap(vGap: 10.0),
+                    PrimaryTFF(
+                      keyboardType: TextInputType.text,
+                      controller: _passwordController,
+                      focusNode: _passwordFocus,
+                      labelText: 'Password',
+                      obscureText: true,
+                      showEye: true,
+                      validator: (text) => textOrEmpty(text).isEmpty
+                          ? 'Password is required!'
+                          : null,
+                      onFieldSubmitted: (_) => _authProvider.signin(
+                        context,
+                        formKey: _formKey,
+                        email: _emailController.text.trim().toLowerCase(),
+                        password: _passwordController.text,
+                      ),
+                    ),
+                    const Gap(vGap: 20.0),
+                    PrimaryButton(
+                      width: inf,
+                      onPressed: () => _authProvider.signin(
+                        context,
+                        formKey: _formKey,
+                        email: _emailController.text.trim().toLowerCase(),
+                        password: _passwordController.text,
+                      ),
+                      label: 'SIGN IN',
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

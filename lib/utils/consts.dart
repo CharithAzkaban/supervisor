@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:supervisor/features/asign/asign_screen.dart';
 import 'package:supervisor/features/dashboard/dashboard_screen.dart';
 import 'package:supervisor/features/loading/loading_screen.dart';
+import 'package:supervisor/features/password/password_screen.dart';
+import 'package:supervisor/features/profile/profile_screen.dart';
 import 'package:supervisor/features/signin/signin_screen.dart';
 import 'package:supervisor/utils/enums.dart';
 
@@ -42,6 +44,10 @@ final goRouter = GoRouter(
                 return AsignScreen(state);
               case PageEnum.dashboard:
                 return const DashboardScreen();
+              case PageEnum.password:
+                return const PasswordScreen();
+              case PageEnum.profile:
+                return const ProfileScreen();
               case PageEnum.signin:
                 return const SigninScreen();
               default:
@@ -55,7 +61,10 @@ final goRouter = GoRouter(
 
 final endPointMap = {
   EndPointEnum.addtasks: 'add/tasks',
+  EndPointEnum.editprofile: 'user/profile/manage',
   EndPointEnum.login: 'auth/user/login',
   EndPointEnum.performers: 'performers',
+  EndPointEnum.password: 'auth/password/change',
   EndPointEnum.refreshtoken: 'refresh_token',
+  EndPointEnum.tasktypes: 'get_qr_data',
 };

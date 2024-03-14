@@ -5,12 +5,10 @@ part 'task_type.g.dart';
 @JsonSerializable()
 class TaskType {
   final int id;
-  final int? taskCategoryId;
   final String? taskTypeName;
 
   TaskType({
     required this.id,
-    this.taskCategoryId,
     this.taskTypeName,
   });
 

@@ -53,6 +53,7 @@ void notify(
   String? actionLabel,
   void Function()? onPressed,
 }) {
+  ScaffoldMessenger.of(context).clearSnackBars();
   final snackBar = SnackBar(
     content: PrimaryText(
       message,

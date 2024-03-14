@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:money_formatter/money_formatter.dart';
 import 'package:provider/provider.dart';
@@ -46,6 +48,40 @@ double doub(String text) => double.tryParse(text.trim()) ?? 0.0;
 double dWidth(BuildContext context) => MediaQuery.of(context).size.width;
 
 String ets(Enum enumuration) => enumuration.name;
+
+Widget fileImage(
+  XFile file, {
+  double? width,
+  double? height,
+  BoxFit? fit,
+  double? radius,
+}) =>
+    radius != null
+        ? ClipRRect(
+            borderRadius: BorderRadius.circular(radius),
+            child: Image.file(
+              File(file.path),
+              errorBuilder: (context, _, __) => assetImage(
+                ImageEnum.error,
+                width: width,
+                height: height,
+              ),
+              width: width,
+              height: height,
+              fit: fit,
+            ),
+          )
+        : Image.file(
+            File(file.path),
+            errorBuilder: (context, _, __) => assetImage(
+              ImageEnum.error,
+              width: width,
+              height: height,
+            ),
+            width: width,
+            height: height,
+            fit: fit,
+          );
 
 String gender(int? genderId) => genderId == 1
     ? 'Male'

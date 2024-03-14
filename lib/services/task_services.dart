@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supervisor/models/performer.dart';
 import 'package:supervisor/models/task.dart';
+import 'package:supervisor/models/task_type.dart';
 import 'package:supervisor/utils/actions.dart';
 import 'package:supervisor/utils/consts.dart';
 import 'package:supervisor/utils/enums.dart';
@@ -20,14 +21,14 @@ Future<bool> asignTaskAPI(
       setAccessToken: true,
       context: context,
       data: {
-        "task_issued_user_id": issuedUserId,
-        "task_assigned_user_id": assignedUserId,
-        "task_category_id": 1,
-        "task_floor": task.floorId,
-        "task_washroom": task.washroomId,
-        "gender": task.genderId,
-        "task_ids": selectedTypes,
-        "other_type": otherTypes,
+        'task_issued_user_id': issuedUserId,
+        'task_assigned_user_id': assignedUserId,
+        'task_category_id': 1,
+        'task_floor': task.floorId,
+        'task_washroom': task.washroomId,
+        'gender': task.genderId,
+        'task_ids': selectedTypes,
+        'other_type': otherTypes,
       },
     ).then((response) async {
       final isSuccess = response.success;
@@ -57,6 +58,36 @@ Future<List<Performer>> getPerformersAPI(BuildContext context) => respo(
         context,
         messageColor: error,
         message: 'ERROR CODE: TASK-001',
+      );
+      return [];
+    });
+
+Future<List<TaskType>> getTaskTypesAPI(
+  BuildContext context, {
+  required Task task,
+}) =>
+    respo(
+      EndPointEnum.tasktypes,
+      data: {
+        'gender_id': task.genderId,
+        'floor_id': task.floorId,
+        'washroom_id': task.washroomId,
+      },
+      method: MethodEnum.post,
+      setAccessToken: true,
+      context: context,
+    ).then((response) async {
+      if (response.success) {
+        final List taskTypeList = response.data['tasks'];
+        return taskTypeList
+            .map((taskType) => TaskType.fromJson(taskType))
+            .where((element) => element.id != 6)
+            .toList();
+      }
+      notify(
+        context,
+        messageColor: error,
+        message: 'ERROR CODE: TASK-002',
       );
       return [];
     });

@@ -1,8 +1,11 @@
 enum EndPointEnum {
   addtasks,
+  editprofile,
   login,
+  password,
   performers,
   refreshtoken,
+  tasktypes,
 }
 
 enum ImageEnum {
@@ -25,6 +28,8 @@ enum PageEnum {
   asign,
   dashboard,
   loading,
+  password,
+  profile,
   signin,
 }
 

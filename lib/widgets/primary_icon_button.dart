@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supervisor/utils/consts.dart';
 
 class PrimaryIconButton extends StatelessWidget {
   final void Function()? onPressed;
@@ -22,6 +23,7 @@ class PrimaryIconButton extends StatelessWidget {
       isLabelVisible: badgeCount != null,
       child: Container(
         decoration: BoxDecoration(
+          color: fill ? black.withOpacity(0.2) : null,
           borderRadius: BorderRadius.circular(50.0),
         ),
         child: IconButton(
