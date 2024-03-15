@@ -6,6 +6,8 @@ import 'package:supervisor/features/loading/loading_screen.dart';
 import 'package:supervisor/features/password/password_screen.dart';
 import 'package:supervisor/features/profile/profile_screen.dart';
 import 'package:supervisor/features/signin/signin_screen.dart';
+import 'package:supervisor/features/tasks/task_complete_screen.dart';
+import 'package:supervisor/features/tasks/task_screen.dart';
 import 'package:supervisor/utils/enums.dart';
 
 import 'methods.dart';
@@ -50,6 +52,10 @@ final goRouter = GoRouter(
                 return const ProfileScreen();
               case PageEnum.signin:
                 return const SigninScreen();
+              case PageEnum.task:
+                return TaskScreen(state);
+              case PageEnum.taskcomplete:
+                return TaskCompleteScreen(state);
               default:
                 return const LoadingScreen();
             }
@@ -61,6 +67,8 @@ final goRouter = GoRouter(
 
 final endPointMap = {
   EndPointEnum.addtasks: 'add/tasks',
+  EndPointEnum.alltasks: 'all/tasks',
+  EndPointEnum.completetask: 'complete/tasks',
   EndPointEnum.editprofile: 'user/profile/manage',
   EndPointEnum.login: 'auth/user/login',
   EndPointEnum.performers: 'performers',

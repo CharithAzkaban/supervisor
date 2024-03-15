@@ -1,7 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:supervisor/models/performer.dart';
+import 'package:supervisor/models/init_task.dart';
 import 'package:supervisor/models/task.dart';
 import 'package:supervisor/models/task_type.dart';
+import 'package:supervisor/providers/auth_provider.dart';
 import 'package:supervisor/utils/actions.dart';
 import 'package:supervisor/utils/consts.dart';
 import 'package:supervisor/utils/enums.dart';
@@ -9,7 +13,7 @@ import 'package:supervisor/utils/methods.dart';
 
 Future<bool> asignTaskAPI(
   BuildContext context, {
-  required Task task,
+  required InitTask initTask,
   required int? issuedUserId,
   required int? assignedUserId,
   required List<int> selectedTypes,
@@ -24,9 +28,9 @@ Future<bool> asignTaskAPI(
         'task_issued_user_id': issuedUserId,
         'task_assigned_user_id': assignedUserId,
         'task_category_id': 1,
-        'task_floor': task.floorId,
-        'task_washroom': task.washroomId,
-        'gender': task.genderId,
+        'task_floor': initTask.floorId,
+        'task_washroom': initTask.washroomId,
+        'gender': initTask.genderId,
         'task_ids': selectedTypes,
         'other_type': otherTypes,
       },
@@ -40,6 +44,55 @@ Future<bool> asignTaskAPI(
         messageColor: isSuccess ? success : error,
       );
       return isSuccess;
+    });
+
+Future<bool> completeTaskAPI(
+  BuildContext context, {
+  required int taskId,
+  required double rate,
+  XFile? selectedFile,
+  String? description,
+}) =>
+    respo(
+      EndPointEnum.completetask,
+      context: context,
+      data: FormData.fromMap({
+        'video_url': selectedFile != null
+            ? MultipartFile.fromFileSync(selectedFile.path)
+            : null,
+        'task_id': taskId,
+        'description': description,
+        'rate': rate,
+        'status': 3,
+      }),
+      setAccessToken: true,
+      method: MethodEnum.post,
+    ).then((response) => response.success);
+
+Future<List<Task>> getAllTasksAPI(
+  BuildContext context, {
+  required StatusEnum status,
+}) =>
+    respo(
+      EndPointEnum.alltasks,
+      data: {
+        'task_type_id': int.parse(status.name.replaceFirst('status', '')),
+        'user_id': provider<AuthProvider>(context).user?.id,
+      },
+      method: MethodEnum.post,
+      setAccessToken: true,
+      context: context,
+    ).then((response) async {
+      if (response.success) {
+        final List taskList = response.data;
+        return taskList.map((task) => Task.fromJson(task)).toList();
+      }
+      notify(
+        context,
+        messageColor: error,
+        message: 'ERROR CODE: TASK-002',
+      );
+      return [];
     });
 
 Future<List<Performer>> getPerformersAPI(BuildContext context) => respo(
@@ -64,14 +117,14 @@ Future<List<Performer>> getPerformersAPI(BuildContext context) => respo(
 
 Future<List<TaskType>> getTaskTypesAPI(
   BuildContext context, {
-  required Task task,
+  required InitTask initTask,
 }) =>
     respo(
       EndPointEnum.tasktypes,
       data: {
-        'gender_id': task.genderId,
-        'floor_id': task.floorId,
-        'washroom_id': task.washroomId,
+        'gender_id': initTask.genderId,
+        'floor_id': initTask.floorId,
+        'washroom_id': initTask.washroomId,
       },
       method: MethodEnum.post,
       setAccessToken: true,

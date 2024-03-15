@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:supervisor/models/performer.dart';
+import 'package:supervisor/models/init_task.dart';
 import 'package:supervisor/models/task.dart';
 import 'package:supervisor/models/task_type.dart';
 import 'package:supervisor/popups/asign_body.dart';
@@ -16,15 +18,22 @@ import 'package:supervisor/widgets/popup_action.dart';
 import 'package:supervisor/widgets/primary_text.dart';
 
 class TaskProvider extends ChangeNotifier {
+  var _isLoading = false;
   final _checkedTypes = <int>[];
   final _availableTypes = <TaskType>[];
   final _performers = <Performer>[];
+  final _tasks = <Task>[];
   int? _selectedPerformerId;
+  double _rate = 0.0;
+  XFile? _selectedFile;
 
+  bool get isLoading => _isLoading;
   List<int> get checkedTypes => _checkedTypes;
   List<TaskType> get availableTypes => _availableTypes;
   List<Performer> get performers => _performers;
+  List<Task> get tasks => _tasks;
   int? get selectedPerformerId => _selectedPerformerId;
+  XFile? get selectedFile => _selectedFile;
 
   void addOrRemoveType(
     int? typeId, {
@@ -38,9 +47,48 @@ class TaskProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void approveTask(
+    BuildContext context, {
+    required int taskId,
+    required StatusEnum status,
+    required TextEditingController descriptionController,
+    String? description,
+  }) {
+    confirm(
+      context,
+      confirmMessage: 'Would you like to approve this task now?',
+      onConfirm: () => waiting(
+        context,
+        futureTask: () => completeTaskAPI(
+          context,
+          taskId: taskId,
+          rate: _rate,
+          selectedFile: _selectedFile,
+          description: descriptionController.text.trim(),
+        ),
+        afterTask: (isOk) {
+          resetCompleting();
+          if (isOk) {
+            pop(context);
+            loadTasks(
+              context,
+              status: status,
+            );
+          }
+          notify(
+            context,
+            message:
+                isOk ? 'Task completed successfully.' : 'Failed to complete!',
+            messageColor: isOk ? success : error,
+          );
+        },
+      ),
+    );
+  }
+
   void asignTask(
     BuildContext context, {
-    required Task task,
+    required InitTask initTask,
     required GlobalKey<FormState> formKey,
     required String? otherTypes,
   }) {
@@ -56,7 +104,7 @@ class TaskProvider extends ChangeNotifier {
         context,
         futureTask: () => asignTaskAPI(
           context,
-          task: task,
+          initTask: initTask,
           issuedUserId: provider<AuthProvider>(context).user?.id,
           assignedUserId: _selectedPerformerId,
           selectedTypes: _checkedTypes,
@@ -71,29 +119,48 @@ class TaskProvider extends ChangeNotifier {
     }
   }
 
-  void loadPerformers(BuildContext context, {re}) async {
+  void loadPerformers(BuildContext context) async {
     _performers.clear();
     _performers.addAll(await getPerformersAPI(context));
     notifyListeners();
   }
 
+  void loadTasks(
+    BuildContext context, {
+    required StatusEnum status,
+  }) async {
+    _tasks.clear();
+    setLoading(true);
+    _tasks.addAll(await getAllTasksAPI(
+      context,
+      status: status,
+    ));
+    setLoading(false);
+  }
+
   void loadTaskTypes(
     BuildContext context, {
-    required Task task,
+    required InitTask initTask,
   }) async {
     _availableTypes.clear();
     _availableTypes.addAll(await getTaskTypesAPI(
       context,
-      task: task,
+      initTask: initTask,
     ));
     notifyListeners();
   }
 
   void reset() {
-    _availableTypes.clear();
-    _checkedTypes.clear();
-    _performers.clear();
+    if (_availableTypes.isNotEmpty) _availableTypes.clear();
+    if (_checkedTypes.isNotEmpty) _checkedTypes.clear();
+    if (_performers.isNotEmpty) _performers.clear();
+    if (_tasks.isNotEmpty) _tasks.clear();
     _selectedPerformerId = null;
+  }
+
+  void resetCompleting() {
+    _selectedFile = null;
+    _rate = 0.0;
   }
 
   Future<void> scanQr(BuildContext context) async {
@@ -110,7 +177,7 @@ class TaskProvider extends ChangeNotifier {
         );
       } else {
         try {
-          final task = Task.fromJson(json.decode(qrData));
+          final initTask = InitTask.fromJson(json.decode(qrData));
           popup(
             context,
             outTapDismissible: false,
@@ -118,7 +185,7 @@ class TaskProvider extends ChangeNotifier {
               'Assigning',
               color: black,
             ),
-            content: AsignBody(task),
+            content: AsignBody(initTask),
             actions: [
               PopupAction(
                 onPressed: () => pop(context),
@@ -131,7 +198,7 @@ class TaskProvider extends ChangeNotifier {
                   navigate(
                     context,
                     page: PageEnum.asign,
-                    extra: task,
+                    extra: initTask,
                   );
                 },
                 color: primary,
@@ -151,4 +218,31 @@ class TaskProvider extends ChangeNotifier {
   }
 
   void selectPerformer(int? performerId) => _selectedPerformerId = performerId;
+
+  void selectVideo(BuildContext context) {
+    if (notNull(selectedFile)) {
+      _selectedFile = null;
+      notifyListeners();
+    } else {
+      ImagePicker().pickVideo(source: ImageSource.camera).then((xfile) {
+        if (notNull(xfile)) {
+          _selectedFile = xfile;
+        } else {
+          notify(
+            context,
+            message: 'You\'ve nothing recorded!',
+            messageColor: warn,
+          );
+        }
+        notifyListeners();
+      });
+    }
+  }
+
+  void setLoading(bool isLoading) {
+    _isLoading = isLoading;
+    notifyListeners();
+  }
+
+  void setRate(double rate) => _rate = rate;
 }

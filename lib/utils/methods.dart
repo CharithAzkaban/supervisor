@@ -150,6 +150,16 @@ Future navigate(
             extra: extra,
           );
 
+navigateAndReplaceAll(
+  BuildContext context, {
+  required PageEnum page,
+  Object? extra,
+}) =>
+    context.go(
+      '/${ets(page)}',
+      extra: extra,
+    );
+
 Widget netImage(
   String? url, {
   double? width,

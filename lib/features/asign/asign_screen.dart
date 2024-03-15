@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:supervisor/models/task.dart';
+import 'package:supervisor/models/init_task.dart';
 import 'package:supervisor/providers/task_provider.dart';
 import 'package:supervisor/utils/actions.dart';
 import 'package:supervisor/utils/consts.dart';
@@ -23,22 +23,22 @@ class AsignScreen extends StatefulWidget {
 }
 
 class _AsignScreenState extends State<AsignScreen> {
-  late final TaskProvider _taskProvider;
-  late final Task _task;
+  late final TaskProvider _initTaskProvider;
+  late final InitTask _initTask;
   final _formKey = GlobalKey<FormState>();
   final _otherController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _taskProvider = provider<TaskProvider>(context);
-    _task = widget.state.extra as Task;
+    _initTaskProvider = provider<TaskProvider>(context);
+    _initTask = widget.state.extra as InitTask;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _taskProvider.loadTaskTypes(
+      _initTaskProvider.loadTaskTypes(
         context,
-        task: _task,
+        initTask: _initTask,
       );
-      _taskProvider.loadPerformers(context);
+      _initTaskProvider.loadPerformers(context);
     });
   }
 
@@ -60,9 +60,9 @@ class _AsignScreenState extends State<AsignScreen> {
               builder: (context, taskData, _) => PrimaryIconButton(
                 onPressed: (taskData.availableTypes.isNotEmpty &&
                         taskData.performers.isNotEmpty)
-                    ? () => _taskProvider.asignTask(
+                    ? () => _initTaskProvider.asignTask(
                           context,
-                          task: _task,
+                          initTask: _initTask,
                           formKey: _formKey,
                           otherTypes: textOrNull(_otherController.text),
                         )
@@ -81,7 +81,7 @@ class _AsignScreenState extends State<AsignScreen> {
             slivers: [
               SliverToBoxAdapter(
                 child: PrimaryText(
-                  'Floor: ${_task.floorId}',
+                  'Floor: ${_initTask.floorId}',
                   color: black,
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
@@ -89,7 +89,7 @@ class _AsignScreenState extends State<AsignScreen> {
               ),
               SliverToBoxAdapter(
                 child: PrimaryText(
-                  'Gender: ${gender(_task.genderId)}',
+                  'Gender: ${gender(_initTask.genderId)}',
                   color: black,
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
@@ -97,7 +97,7 @@ class _AsignScreenState extends State<AsignScreen> {
               ),
               SliverToBoxAdapter(
                 child: PrimaryText(
-                  'Washroom: ${_task.washroomId}',
+                  'Washroom: ${_initTask.washroomId}',
                   color: black,
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
@@ -182,7 +182,7 @@ class _AsignScreenState extends State<AsignScreen> {
 
   @override
   void dispose() {
-    _taskProvider.reset();
+    _initTaskProvider.reset();
     _otherController.dispose();
     super.dispose();
   }

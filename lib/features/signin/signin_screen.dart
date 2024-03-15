@@ -52,8 +52,9 @@ class _SigninScreenState extends State<SigninScreen> {
                       keyboardType: TextInputType.emailAddress,
                       controller: _emailController,
                       labelText: 'Email',
-                      validator: (text) =>
-                          textOrEmpty(text).isEmpty ? 'Email is required!' : null,
+                      validator: (text) => textOrEmpty(text).isEmpty
+                          ? 'Email is required!'
+                          : null,
                       onFieldSubmitted: (_) => _passwordFocus.requestFocus(),
                     ),
                     const Gap(vGap: 10.0),

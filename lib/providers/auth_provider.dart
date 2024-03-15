@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supervisor/models/user.dart';
 import 'package:supervisor/providers/popup_provider.dart';
@@ -99,8 +98,10 @@ class AuthProvider extends ChangeNotifier {
         ),
         afterTask: (isOk) {
           if (isOk) {
-            pop(context);
-            context.go('/${ets(PageEnum.signin)}');
+            signout(
+              context,
+              isConfirm: false,
+            );
           }
         },
       );
@@ -133,28 +134,38 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  void signout(BuildContext context) async => confirm(
-        context,
-        onConfirm: () => waiting(
+  void signout(
+    BuildContext context, {
+    bool isConfirm = true,
+  }) async {
+    final signOut = waiting(
+      context,
+      futureTask: () => removePref(PrefEnum.accesstoken),
+      afterTask: (isOk) {
+        if (isOk) {
+          _user = null;
+          navigateAndReplaceAll(
+            context,
+            page: PageEnum.signin,
+          );
+        }
+        notify(
           context,
-          futureTask: () => removePref(PrefEnum.accesstoken),
-          afterTask: (isOk) {
-            if (isOk) {
-              _user = null;
-              navigate(
-                context,
-                page: PageEnum.signin,
-                replace: true,
-              );
-            }
-            notify(
-              context,
-              messageColor: isOk ? null : error,
-              message: isOk ? 'You are signed out!' : 'Sign out failed!',
-            );
-          },
-        ),
+          messageColor: isOk ? null : error,
+          message: isOk ? 'You are signed out!' : 'Sign out failed!',
+        );
+      },
+    );
+
+    if (isConfirm) {
+      confirm(
+        context,
+        onConfirm: () => signOut,
         confirmLabel: 'SIGN OUT',
         confirmMessage: 'You are about to sign out. Do you wish?',
       );
+    } else {
+      signOut;
+    }
+  }
 }

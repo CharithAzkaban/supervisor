@@ -1,18 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:supervisor/models/task.dart';
 import 'package:supervisor/utils/attribute.dart';
 import 'package:supervisor/utils/consts.dart';
 import 'package:supervisor/utils/enums.dart';
 import 'package:supervisor/utils/methods.dart';
+import 'package:supervisor/widgets/gap.dart';
 import 'package:supervisor/widgets/primary_text.dart';
 
-class TaskCard extends StatelessWidget {
-  final StatusEnum status;
-  final int tasks;
-  const TaskCard({
+class TaskWidget extends StatefulWidget {
+  final Task task;
+  const TaskWidget(
+    this.task, {
     super.key,
-    required this.status,
-    required this.tasks,
   });
+
+  @override
+  State<TaskWidget> createState() => _TaskWidgetState();
+}
+
+class _TaskWidgetState extends State<TaskWidget> {
+  late final StatusEnum status;
+
+  @override
+  void initState() {
+    super.initState();
+    status = StatusEnum.values.firstWhere(
+        (element) => element.name.contains(widget.task.taskStatus.toString()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +36,8 @@ class TaskCard extends StatelessWidget {
       child: InkWell(
         onTap: () => navigate(
           context,
-          page: PageEnum.task,
-          extra: status,
+          page: PageEnum.taskcomplete,
+          extra: widget.task,
         ),
         child: Card(
           color: status == StatusEnum.status0
@@ -67,54 +81,55 @@ class TaskCard extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Hero(
-                          tag: status,
-                          child: PrimaryText(
-                            status == StatusEnum.status0
-                                ? 'Todo'
-                                : status == StatusEnum.status1
-                                    ? 'Ongoing'
-                                    : status == StatusEnum.status2
-                                        ? 'Performer Completed'
-                                        : status == StatusEnum.status3
-                                            ? 'Supervisor Completed'
-                                            : 'Rejected',
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          PrimaryText(
+                            '${widget.task.assignedFname} ${widget.task.assignedLname}',
                             color: white,
+                            overflow: TextOverflow.ellipsis,
                             fontWeight: FontWeight.bold,
                             fontSize: 16.0,
                           ),
-                        ),
-                        Expanded(
-                          child: assetImage(
-                            status == StatusEnum.status0
-                                ? ImageEnum.todo
-                                : status == StatusEnum.status1
-                                    ? ImageEnum.ongoing
-                                    : status == StatusEnum.status2
-                                        ? ImageEnum.pcompleted
-                                        : status == StatusEnum.status3
-                                            ? ImageEnum.scompleted
-                                            : ImageEnum.rejected,
+                          PrimaryText(
+                            date(
+                              widget.task.createdAt,
+                              format: 'dd MMM yyyy, hh:mm a',
+                            ),
+                            color: white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10.0,
                           ),
-                        ),
-                      ],
+                          const Gap(vGap: 5.0),
+                          Expanded(
+                            child: assetImage(
+                              status == StatusEnum.status0
+                                  ? ImageEnum.todo
+                                  : status == StatusEnum.status1
+                                      ? ImageEnum.ongoing
+                                      : status == StatusEnum.status2
+                                          ? ImageEnum.pcompleted
+                                          : status == StatusEnum.status3
+                                              ? ImageEnum.scompleted
+                                              : ImageEnum.rejected,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    const Spacer(),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         PrimaryText(
-                          '$tasks',
+                          '${widget.task.gender == 1 ? 'Male' : widget.task.gender == 2 ? 'Female' : 'Family'}\n${widget.task.category}',
                           color: white,
                           textAlign: TextAlign.center,
                           fontWeight: FontWeight.bold,
-                          fontSize: 30.0,
+                          fontSize: 18.0,
                         ),
-                        const PrimaryText(
-                          'TASKS',
+                        PrimaryText(
+                          'Floor ${widget.task.taskFloor}',
                           color: white,
                           textAlign: TextAlign.center,
                           fontWeight: FontWeight.bold,

@@ -74,39 +74,34 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
+      body: const Padding(
+        padding: EdgeInsets.all(15.0),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const TaskCard(
-                label: 'Todo',
-                color: Colors.blue,
+              TaskCard(
+                status: StatusEnum.status0,
                 tasks: 3,
               ),
-              const Gap(vGap: 10.0),
-              const TaskCard(
-                label: 'Ongoing',
-                color: Colors.amber,
+              Gap(vGap: 10.0),
+              TaskCard(
+                status: StatusEnum.status1,
+                tasks: 4,
+              ),
+              Gap(vGap: 10.0),
+              TaskCard(
+                status: StatusEnum.status2,
+                tasks: 6,
+              ),
+              Gap(vGap: 10.0),
+              TaskCard(
+                status: StatusEnum.status3,
                 tasks: 7,
               ),
-              const Gap(vGap: 10.0),
+              Gap(vGap: 10.0),
               TaskCard(
-                label: 'Performer Completed',
-                color: success,
+                status: StatusEnum.status4,
                 tasks: 2,
-              ),
-              const Gap(vGap: 10.0),
-              TaskCard(
-                label: 'Supervisor Completed',
-                color: hexColor('#15910F'),
-                tasks: 2,
-              ),
-              const Gap(vGap: 10.0),
-              TaskCard(
-                label: 'Rejected',
-                color: error,
-                tasks: 5,
               ),
             ],
           ),
