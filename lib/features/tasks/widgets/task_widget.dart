@@ -34,11 +34,13 @@ class _TaskWidgetState extends State<TaskWidget> {
       width: inf,
       height: 150.0,
       child: InkWell(
-        onTap: () => navigate(
-          context,
-          page: PageEnum.taskcomplete,
-          extra: widget.task,
-        ),
+        onTap: status == StatusEnum.status2
+            ? () => navigate(
+                  context,
+                  page: PageEnum.taskcomplete,
+                  extra: widget.task,
+                )
+            : null,
         child: Card(
           color: status == StatusEnum.status0
               ? Colors.blue
