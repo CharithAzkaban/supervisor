@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:supervisor/providers/task_provider.dart';
 import 'package:supervisor/utils/attribute.dart';
 import 'package:supervisor/utils/consts.dart';
 import 'package:supervisor/utils/enums.dart';
@@ -7,11 +9,9 @@ import 'package:supervisor/widgets/primary_text.dart';
 
 class TaskCard extends StatelessWidget {
   final StatusEnum status;
-  final int tasks;
   const TaskCard({
     super.key,
     required this.status,
-    required this.tasks,
   });
 
   @override
@@ -106,12 +106,28 @@ class TaskCard extends StatelessWidget {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        PrimaryText(
-                          '$tasks',
-                          color: white,
-                          textAlign: TextAlign.center,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.0,
+                        Consumer<TaskProvider>(
+                          builder: (context, taskData, _) => PrimaryText(
+                            status == StatusEnum.status0
+                                ? taskData.taskCount.pending_status.toString()
+                                : status == StatusEnum.status1
+                                    ? taskData.taskCount.todo_status
+                                        .toString()
+                                    : status == StatusEnum.status2
+                                        ? taskData.taskCount
+                                            .performer_completed_status
+                                            .toString()
+                                        : status == StatusEnum.status3
+                                            ? taskData
+                                                .taskCount.supervisor_completed
+                                                .toString()
+                                            : taskData.taskCount.rejected_status
+                                                .toString(),
+                            color: white,
+                            textAlign: TextAlign.center,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30.0,
+                          ),
                         ),
                         const PrimaryText(
                           'TASKS',

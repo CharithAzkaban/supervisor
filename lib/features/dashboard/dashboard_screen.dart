@@ -25,6 +25,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     super.initState();
     _taskProvider = provider<TaskProvider>(context);
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _taskProvider.setTaskCount(context));
   }
 
   @override
@@ -74,36 +76,34 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ],
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(15.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              TaskCard(
-                status: StatusEnum.status0,
-                tasks: 3,
-              ),
-              Gap(vGap: 10.0),
-              TaskCard(
-                status: StatusEnum.status1,
-                tasks: 4,
-              ),
-              Gap(vGap: 10.0),
-              TaskCard(
-                status: StatusEnum.status2,
-                tasks: 6,
-              ),
-              Gap(vGap: 10.0),
-              TaskCard(
-                status: StatusEnum.status3,
-                tasks: 7,
-              ),
-              Gap(vGap: 10.0),
-              TaskCard(
-                status: StatusEnum.status4,
-                tasks: 2,
-              ),
-            ],
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: RefreshIndicator(
+          onRefresh: () async => _taskProvider.setTaskCount(context),
+          child: const SingleChildScrollView(
+            child: Column(
+              children: [
+                TaskCard(
+                  status: StatusEnum.status0,
+                ),
+                Gap(vGap: 10.0),
+                TaskCard(
+                  status: StatusEnum.status1,
+                ),
+                Gap(vGap: 10.0),
+                TaskCard(
+                  status: StatusEnum.status2,
+                ),
+                Gap(vGap: 10.0),
+                TaskCard(
+                  status: StatusEnum.status3,
+                ),
+                Gap(vGap: 10.0),
+                TaskCard(
+                  status: StatusEnum.status4,
+                ),
+              ],
+            ),
           ),
         ),
       ),

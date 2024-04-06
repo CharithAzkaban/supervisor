@@ -74,5 +74,6 @@ final endPointMap = {
   EndPointEnum.performers: 'performers',
   EndPointEnum.password: 'auth/password/change',
   EndPointEnum.refreshtoken: 'refresh_token',
+  EndPointEnum.taskcount: 'dashboard/status',
   EndPointEnum.tasktypes: 'get_qr_data',
 };

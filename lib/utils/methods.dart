@@ -302,7 +302,7 @@ Future<Respo> respo(
                         onReceiveProgress: onReceiveProgress,
                       );
 
-    return Respo.fromJson(response.data);
+    return Respo.fromJson(response.data).setOk();
   } on DioException catch (error) {
     return Respo.fromJson(error.response?.data);
   }

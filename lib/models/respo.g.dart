@@ -7,13 +7,13 @@ part of 'respo.dart';
 // **************************************************************************
 
 Respo _$RespoFromJson(Map<String, dynamic> json) => Respo(
-      success: json['success'] as bool? ?? false,
+      ok: json['ok'] as bool? ?? false,
       message: json['message'] as String?,
       data: json['data'],
     );
 
 Map<String, dynamic> _$RespoToJson(Respo instance) => <String, dynamic>{
-      'success': instance.success,
+      'ok': instance.ok,
       'message': instance.message,
       'data': instance.data,
     };

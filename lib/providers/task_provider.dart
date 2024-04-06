@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:supervisor/models/performer.dart';
 import 'package:supervisor/models/init_task.dart';
 import 'package:supervisor/models/task.dart';
+import 'package:supervisor/models/task_count.dart';
 import 'package:supervisor/models/task_type.dart';
 import 'package:supervisor/popups/asign_body.dart';
 import 'package:supervisor/providers/auth_provider.dart';
@@ -26,6 +27,13 @@ class TaskProvider extends ChangeNotifier {
   int? _selectedPerformerId;
   double _rate = 0.0;
   XFile? _selectedFile;
+  var _taskCount = TaskCount(
+    pending_status: 0,
+    todo_status: 0,
+    performer_completed_status: 0,
+    supervisor_completed: 0,
+    rejected_status: 0,
+  );
 
   bool get isLoading => _isLoading;
   List<int> get checkedTypes => _checkedTypes;
@@ -34,6 +42,7 @@ class TaskProvider extends ChangeNotifier {
   List<Task> get tasks => _tasks;
   int? get selectedPerformerId => _selectedPerformerId;
   XFile? get selectedFile => _selectedFile;
+  TaskCount get taskCount => _taskCount;
 
   void addOrRemoveType(
     int? typeId, {
@@ -143,11 +152,17 @@ class TaskProvider extends ChangeNotifier {
     required InitTask initTask,
   }) async {
     _availableTypes.clear();
-    _availableTypes.addAll(await getTaskTypesAPI(
+    getTaskTypesAPI(
       context,
       initTask: initTask,
-    ));
-    notifyListeners();
+    ).then((taskTypes) {
+      if (taskTypes.isNotEmpty) {
+        _availableTypes.addAll(taskTypes);
+        notifyListeners();
+      } else {
+        pop(context);
+      }
+    });
   }
 
   void reset() {
@@ -245,4 +260,9 @@ class TaskProvider extends ChangeNotifier {
   }
 
   void setRate(double rate) => _rate = rate;
+
+  void setTaskCount(BuildContext context) async {
+    _taskCount = await getTaskCountAPI(context);
+    notifyListeners();
+  }
 }

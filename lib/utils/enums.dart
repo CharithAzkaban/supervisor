@@ -7,6 +7,7 @@ enum EndPointEnum {
   password,
   performers,
   refreshtoken,
+  taskcount,
   tasktypes,
 }
 

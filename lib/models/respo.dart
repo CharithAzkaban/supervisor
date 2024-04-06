@@ -4,12 +4,12 @@ part 'respo.g.dart';
 
 @JsonSerializable()
 class Respo {
-  final bool success;
+  bool ok;
   final String? message;
   final dynamic data;
 
   Respo({
-    this.success = false,
+    this.ok = false,
     this.message,
     this.data,
   });
@@ -17,4 +17,9 @@ class Respo {
   factory Respo.fromJson(Map<String, dynamic> json) => _$RespoFromJson(json);
 
   Map<String, dynamic> toJson() => _$RespoToJson(this);
+
+  Respo setOk() {
+    ok = true;
+    return this;
+  }
 }

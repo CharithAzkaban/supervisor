@@ -42,7 +42,7 @@ Future<User?> editProfileAPI(
     }),
     method: MethodEnum.post,
   ).then((response) {
-    if (response.success) {
+    if (response.ok) {
       notify(
         context,
         message: 'Profile update successfully.',
@@ -68,7 +68,7 @@ Future<User?> refreshTokenAPI(BuildContext context) {
     setAccessToken: true,
     context: context,
   ).then((response) async {
-    final isSuccess = response.success;
+    final isSuccess = response.ok;
     if (isSuccess) {
       final data = response.data;
 
@@ -107,7 +107,7 @@ Future<bool> resetPasswordAPI(
       setAccessToken: true,
       method: MethodEnum.post,
     ).then((response) {
-      if (response.success) {
+      if (response.ok) {
         notify(
           context,
           message: 'Password changed successfully.',
@@ -143,10 +143,10 @@ Future<User?> signinAPI(
       data: {
         'email': email,
         'password': password,
-        'user_type': 1,
+        'user_type': 2,
       },
     ).then((response) async {
-      final isSuccess = response.success;
+      final isSuccess = response.ok;
       notify(
         context,
         messageColor: isSuccess ? success : error,
