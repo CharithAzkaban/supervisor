@@ -121,7 +121,7 @@ class AuthProvider extends ChangeNotifier {
           password: password,
         ),
         afterTask: (user) {
-          if (user is User) {
+          if (notNull(user) && user is User) {
             _user = user;
             navigate(
               context,

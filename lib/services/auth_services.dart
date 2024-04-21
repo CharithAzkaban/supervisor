@@ -143,7 +143,7 @@ Future<User?> signinAPI(
       data: {
         'email': email,
         'password': password,
-        'user_type': 2,
+        'user_type': 3,
       },
     ).then((response) async {
       final isSuccess = response.ok;
