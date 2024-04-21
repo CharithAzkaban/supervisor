@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:supervisor/providers/task_provider.dart';
-import 'package:supervisor/utils/attribute.dart';
-import 'package:supervisor/utils/consts.dart';
-import 'package:supervisor/utils/enums.dart';
-import 'package:supervisor/utils/methods.dart';
-import 'package:supervisor/widgets/primary_text.dart';
+import 'package:performer/providers/task_provider.dart';
+import 'package:performer/utils/attribute.dart';
+import 'package:performer/utils/consts.dart';
+import 'package:performer/utils/enums.dart';
+import 'package:performer/utils/methods.dart';
+import 'package:performer/widgets/primary_text.dart';
 
 class TaskCard extends StatelessWidget {
   final StatusEnum status;
@@ -111,8 +111,7 @@ class TaskCard extends StatelessWidget {
                             status == StatusEnum.status0
                                 ? taskData.taskCount.pending_status.toString()
                                 : status == StatusEnum.status1
-                                    ? taskData.taskCount.todo_status
-                                        .toString()
+                                    ? taskData.taskCount.todo_status.toString()
                                     : status == StatusEnum.status2
                                         ? taskData.taskCount
                                             .performer_completed_status

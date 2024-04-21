@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supervisor/features/asign/asign_screen.dart';
-import 'package:supervisor/features/dashboard/dashboard_screen.dart';
-import 'package:supervisor/features/loading/loading_screen.dart';
-import 'package:supervisor/features/password/password_screen.dart';
-import 'package:supervisor/features/profile/profile_screen.dart';
-import 'package:supervisor/features/signin/signin_screen.dart';
-import 'package:supervisor/features/tasks/task_complete_screen.dart';
-import 'package:supervisor/features/tasks/task_screen.dart';
-import 'package:supervisor/utils/enums.dart';
+import 'package:performer/features/asign/asign_screen.dart';
+import 'package:performer/features/dashboard/dashboard_screen.dart';
+import 'package:performer/features/loading/loading_screen.dart';
+import 'package:performer/features/password/password_screen.dart';
+import 'package:performer/features/profile/profile_screen.dart';
+import 'package:performer/features/signin/signin_screen.dart';
+import 'package:performer/features/tasks/task_complete_screen.dart';
+import 'package:performer/features/tasks/task_screen.dart';
+import 'package:performer/utils/enums.dart';
 
 import 'methods.dart';
 

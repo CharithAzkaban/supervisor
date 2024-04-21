@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:supervisor/providers/popup_provider.dart';
-import 'package:supervisor/providers/task_provider.dart';
-import 'package:supervisor/utils/consts.dart';
-import 'package:supervisor/utils/methods.dart';
+import 'package:performer/providers/popup_provider.dart';
+import 'package:performer/providers/task_provider.dart';
+import 'package:performer/utils/consts.dart';
+import 'package:performer/utils/methods.dart';
 
 import 'providers/auth_provider.dart';
 

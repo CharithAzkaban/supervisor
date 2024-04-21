@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:supervisor/providers/auth_provider.dart';
-import 'package:supervisor/utils/actions.dart';
-import 'package:supervisor/utils/enums.dart';
-import 'package:supervisor/utils/methods.dart';
+import 'package:performer/providers/auth_provider.dart';
+import 'package:performer/utils/actions.dart';
+import 'package:performer/utils/enums.dart';
+import 'package:performer/utils/methods.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({super.key});

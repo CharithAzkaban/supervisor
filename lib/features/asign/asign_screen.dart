@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:supervisor/models/init_task.dart';
-import 'package:supervisor/providers/task_provider.dart';
-import 'package:supervisor/utils/actions.dart';
-import 'package:supervisor/utils/consts.dart';
-import 'package:supervisor/utils/methods.dart';
-import 'package:supervisor/widgets/back.dart';
-import 'package:supervisor/widgets/drop_down.dart';
-import 'package:supervisor/widgets/gap.dart';
-import 'package:supervisor/widgets/primary_icon_button.dart';
-import 'package:supervisor/widgets/primary_text.dart';
-import 'package:supervisor/widgets/primary_tff.dart';
-import 'package:supervisor/widgets/side_panel.dart';
+import 'package:performer/models/init_task.dart';
+import 'package:performer/providers/task_provider.dart';
+import 'package:performer/utils/actions.dart';
+import 'package:performer/utils/consts.dart';
+import 'package:performer/utils/methods.dart';
+import 'package:performer/widgets/back.dart';
+import 'package:performer/widgets/drop_down.dart';
+import 'package:performer/widgets/gap.dart';
+import 'package:performer/widgets/primary_icon_button.dart';
+import 'package:performer/widgets/primary_text.dart';
+import 'package:performer/widgets/primary_tff.dart';
+import 'package:performer/widgets/side_panel.dart';
 
 class AsignScreen extends StatefulWidget {
   final GoRouterState state;

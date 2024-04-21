@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:supervisor/utils/consts.dart';
+import 'package:performer/utils/consts.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 class PrimaryText extends StatelessWidget {

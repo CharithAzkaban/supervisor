@@ -1,4 +1,4 @@
-package com.example.supervisor
+package com.example.performer
 
 import io.flutter.embedding.android.FlutterActivity
 

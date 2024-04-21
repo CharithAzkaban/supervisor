@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:supervisor/widgets/primary_text.dart';
+import 'package:performer/widgets/primary_text.dart';
 
 class NoData extends StatelessWidget {
   final String label;

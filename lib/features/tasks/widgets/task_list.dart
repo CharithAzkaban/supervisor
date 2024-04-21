@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:supervisor/providers/task_provider.dart';
-import 'package:supervisor/widgets/gap.dart';
-import 'package:supervisor/widgets/no_data.dart';
+import 'package:performer/providers/task_provider.dart';
+import 'package:performer/widgets/gap.dart';
+import 'package:performer/widgets/no_data.dart';
 
 import 'task_widget.dart';
 

@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:supervisor/utils/consts.dart';
+import 'package:performer/utils/consts.dart';
 
 import 'primary_text.dart';
 

@@ -1,16 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:supervisor/models/performer.dart';
-import 'package:supervisor/models/init_task.dart';
-import 'package:supervisor/models/task.dart';
-import 'package:supervisor/models/task_count.dart';
-import 'package:supervisor/models/task_type.dart';
-import 'package:supervisor/providers/auth_provider.dart';
-import 'package:supervisor/utils/actions.dart';
-import 'package:supervisor/utils/consts.dart';
-import 'package:supervisor/utils/enums.dart';
-import 'package:supervisor/utils/methods.dart';
+import 'package:performer/models/performer.dart';
+import 'package:performer/models/init_task.dart';
+import 'package:performer/models/task.dart';
+import 'package:performer/models/task_count.dart';
+import 'package:performer/models/task_type.dart';
+import 'package:performer/providers/auth_provider.dart';
+import 'package:performer/utils/actions.dart';
+import 'package:performer/utils/consts.dart';
+import 'package:performer/utils/enums.dart';
+import 'package:performer/utils/methods.dart';
 
 Future<bool> asignTaskAPI(
   BuildContext context, {

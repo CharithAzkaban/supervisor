@@ -1,22 +1,16 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:supervisor/models/performer.dart';
-import 'package:supervisor/models/init_task.dart';
-import 'package:supervisor/models/task.dart';
-import 'package:supervisor/models/task_count.dart';
-import 'package:supervisor/models/task_type.dart';
-import 'package:supervisor/popups/asign_body.dart';
-import 'package:supervisor/providers/auth_provider.dart';
-import 'package:supervisor/services/task_services.dart';
-import 'package:supervisor/utils/actions.dart';
-import 'package:supervisor/utils/consts.dart';
-import 'package:supervisor/utils/enums.dart';
-import 'package:supervisor/utils/methods.dart';
-import 'package:supervisor/widgets/popup_action.dart';
-import 'package:supervisor/widgets/primary_text.dart';
+import 'package:performer/models/performer.dart';
+import 'package:performer/models/init_task.dart';
+import 'package:performer/models/task.dart';
+import 'package:performer/models/task_count.dart';
+import 'package:performer/models/task_type.dart';
+import 'package:performer/providers/auth_provider.dart';
+import 'package:performer/services/task_services.dart';
+import 'package:performer/utils/actions.dart';
+import 'package:performer/utils/consts.dart';
+import 'package:performer/utils/enums.dart';
+import 'package:performer/utils/methods.dart';
 
 class TaskProvider extends ChangeNotifier {
   var _isLoading = false;
@@ -176,60 +170,6 @@ class TaskProvider extends ChangeNotifier {
   void resetCompleting() {
     _selectedFile = null;
     _rate = 0.0;
-  }
-
-  Future<void> scanQr(BuildContext context) async {
-    FlutterBarcodeScanner.scanBarcode(
-      '#FF0000',
-      'Cancel',
-      true,
-      ScanMode.QR,
-    ).then((qrData) {
-      if (qrData == '-1') {
-        notify(
-          context,
-          message: 'Camera permission denied!',
-        );
-      } else {
-        try {
-          final initTask = InitTask.fromJson(json.decode(qrData));
-          popup(
-            context,
-            outTapDismissible: false,
-            title: const PrimaryText(
-              'Assigning',
-              color: black,
-            ),
-            content: AsignBody(initTask),
-            actions: [
-              PopupAction(
-                onPressed: () => pop(context),
-                color: error,
-                label: 'DISMISS',
-              ),
-              PopupAction(
-                onPressed: () {
-                  pop(context);
-                  navigate(
-                    context,
-                    page: PageEnum.asign,
-                    extra: initTask,
-                  );
-                },
-                color: primary,
-                label: 'ASIGN',
-              ),
-            ],
-          );
-        } on FormatException catch (_) {
-          notify(
-            context,
-            message: 'Invalid QR has been scanned!',
-            messageColor: error,
-          );
-        }
-      }
-    });
   }
 
   void selectPerformer(int? performerId) => _selectedPerformerId = performerId;

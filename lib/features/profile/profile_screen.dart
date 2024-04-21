@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:supervisor/models/user.dart';
-import 'package:supervisor/providers/auth_provider.dart';
-import 'package:supervisor/utils/actions.dart';
-import 'package:supervisor/utils/consts.dart';
-import 'package:supervisor/utils/methods.dart';
-import 'package:supervisor/widgets/back.dart';
-import 'package:supervisor/widgets/gap.dart';
-import 'package:supervisor/widgets/primary_button.dart';
-import 'package:supervisor/widgets/primary_icon_button.dart';
-import 'package:supervisor/widgets/primary_text.dart';
-import 'package:supervisor/widgets/primary_tff.dart';
+import 'package:performer/models/user.dart';
+import 'package:performer/providers/auth_provider.dart';
+import 'package:performer/utils/actions.dart';
+import 'package:performer/utils/consts.dart';
+import 'package:performer/utils/methods.dart';
+import 'package:performer/widgets/back.dart';
+import 'package:performer/widgets/gap.dart';
+import 'package:performer/widgets/primary_button.dart';
+import 'package:performer/widgets/primary_icon_button.dart';
+import 'package:performer/widgets/primary_text.dart';
+import 'package:performer/widgets/primary_tff.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

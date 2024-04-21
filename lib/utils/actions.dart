@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:supervisor/providers/popup_provider.dart';
-import 'package:supervisor/utils/methods.dart';
-import 'package:supervisor/widgets/loader.dart';
-import 'package:supervisor/widgets/popup_action.dart';
-import 'package:supervisor/widgets/primary_text.dart';
+import 'package:performer/providers/popup_provider.dart';
+import 'package:performer/utils/methods.dart';
+import 'package:performer/widgets/loader.dart';
+import 'package:performer/widgets/popup_action.dart';
+import 'package:performer/widgets/primary_text.dart';
 
 import 'consts.dart';
 

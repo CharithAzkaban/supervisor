@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:supervisor/models/init_task.dart';
-import 'package:supervisor/utils/consts.dart';
-import 'package:supervisor/utils/methods.dart';
-import 'package:supervisor/widgets/primary_text.dart';
+import 'package:performer/models/init_task.dart';
+import 'package:performer/utils/consts.dart';
+import 'package:performer/utils/methods.dart';
+import 'package:performer/widgets/primary_text.dart';
 
 class AsignBody extends StatelessWidget {
   final InitTask initTask;

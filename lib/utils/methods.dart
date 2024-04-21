@@ -7,12 +7,11 @@ import 'package:go_router/go_router.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:money_formatter/money_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supervisor/models/respo.dart';
-import 'package:supervisor/providers/popup_provider.dart';
-import 'package:supervisor/utils/consts.dart';
+import 'package:performer/models/respo.dart';
+import 'package:performer/providers/popup_provider.dart';
+import 'package:performer/utils/consts.dart';
 
 import 'enums.dart';
 
@@ -210,21 +209,6 @@ String number(
     number == number.toInt()
         ? '${number.toInt().toString()}${unit == null ? '' : ' ${number == 1 ? unit : pluralUnit ?? '${unit}s'}'}'
         : '${doubleFix != null ? number.toStringAsFixed(doubleFix) : number.toString()}${unit == null ? '' : ' ${number == 1 ? unit : pluralUnit ?? '${unit}s'}'}';
-
-String price(double amount) {
-  final fmf = MoneyFormatter(
-    amount: amount,
-    settings: MoneyFormatterSettings(
-      symbol: 'Rs',
-      thousandSeparator: ',',
-      decimalSeparator: '.',
-      symbolAndNumberSeparator: '.',
-      fractionDigits: 2,
-      compactFormatType: CompactFormatType.short,
-    ),
-  );
-  return fmf.output.symbolOnLeft;
-}
 
 ChangeNotifier provider<ChangeNotifier>(BuildContext context) =>
     context.read<ChangeNotifier>();

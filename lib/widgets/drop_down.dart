@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:supervisor/utils/consts.dart';
+import 'package:performer/utils/consts.dart';
 
 class DropDown<T> extends StatelessWidget {
   final T value;

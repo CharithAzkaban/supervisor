@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:supervisor/models/task.dart';
-import 'package:supervisor/providers/task_provider.dart';
-import 'package:supervisor/utils/actions.dart';
-import 'package:supervisor/utils/consts.dart';
-import 'package:supervisor/utils/enums.dart';
-import 'package:supervisor/utils/methods.dart';
-import 'package:supervisor/widgets/back.dart';
-import 'package:supervisor/widgets/gap.dart';
-import 'package:supervisor/widgets/primary_button.dart';
-import 'package:supervisor/widgets/primary_text.dart';
-import 'package:supervisor/widgets/primary_tff.dart';
+import 'package:performer/models/task.dart';
+import 'package:performer/providers/task_provider.dart';
+import 'package:performer/utils/actions.dart';
+import 'package:performer/utils/consts.dart';
+import 'package:performer/utils/enums.dart';
+import 'package:performer/utils/methods.dart';
+import 'package:performer/widgets/back.dart';
+import 'package:performer/widgets/gap.dart';
+import 'package:performer/widgets/primary_button.dart';
+import 'package:performer/widgets/primary_text.dart';
+import 'package:performer/widgets/primary_tff.dart';
 
 class TaskCompleteScreen extends StatefulWidget {
   final GoRouterState state;
@@ -108,17 +107,6 @@ class _TaskCompleteScreenState extends State<TaskCompleteScreen> {
                     fontSize: 16.0,
                     color: grey.shade700,
                     fontWeight: FontWeight.w700,
-                  ),
-                  const Gap(vGap: 10.0),
-                  RatingBar.builder(
-                    itemCount: 5,
-                    initialRating: _task.taskRate.toDouble(),
-                    itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    itemBuilder: (context, _) => const Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                    ),
-                    onRatingUpdate: (rating) => _taskProvider.setRate(rating),
                   ),
                   const Gap(vGap: 20.0),
                   PrimaryTFF(

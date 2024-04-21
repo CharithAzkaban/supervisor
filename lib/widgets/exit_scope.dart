@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:supervisor/utils/actions.dart';
+import 'package:performer/utils/actions.dart';
 
 class ExitScope extends StatelessWidget {
   final Widget child;

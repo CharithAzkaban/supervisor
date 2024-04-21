@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:supervisor/utils/actions.dart';
-import 'package:supervisor/utils/consts.dart';
+import 'package:performer/utils/actions.dart';
+import 'package:performer/utils/consts.dart';
 
 import 'primary_icon_button.dart';
 

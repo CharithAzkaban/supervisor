@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:supervisor/features/dashboard/widgets/task_card.dart';
-import 'package:supervisor/providers/auth_provider.dart';
-import 'package:supervisor/providers/task_provider.dart';
-import 'package:supervisor/utils/consts.dart';
-import 'package:supervisor/utils/enums.dart';
-import 'package:supervisor/utils/methods.dart';
-import 'package:supervisor/widgets/gap.dart';
-import 'package:supervisor/widgets/primary_icon_button.dart';
-import 'package:supervisor/widgets/primary_text.dart';
-import 'package:supervisor/widgets/side_panel.dart';
+import 'package:performer/features/dashboard/widgets/task_card.dart';
+import 'package:performer/providers/auth_provider.dart';
+import 'package:performer/providers/task_provider.dart';
+import 'package:performer/utils/consts.dart';
+import 'package:performer/utils/enums.dart';
+import 'package:performer/utils/methods.dart';
+import 'package:performer/widgets/gap.dart';
+import 'package:performer/widgets/primary_icon_button.dart';
+import 'package:performer/widgets/primary_text.dart';
+import 'package:performer/widgets/side_panel.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -66,15 +66,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ],
         ),
-        actions: [
-          PrimaryIconButton(
-            onPressed: () => _taskProvider.scanQr(context),
-            icon: const Icon(
-              Icons.qr_code_scanner_rounded,
-              color: white,
-            ),
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),

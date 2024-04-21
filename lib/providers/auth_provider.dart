@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:supervisor/models/user.dart';
-import 'package:supervisor/providers/popup_provider.dart';
-import 'package:supervisor/services/auth_services.dart';
-import 'package:supervisor/utils/actions.dart';
-import 'package:supervisor/utils/consts.dart';
-import 'package:supervisor/utils/enums.dart';
-import 'package:supervisor/utils/methods.dart';
+import 'package:performer/models/user.dart';
+import 'package:performer/providers/popup_provider.dart';
+import 'package:performer/services/auth_services.dart';
+import 'package:performer/utils/actions.dart';
+import 'package:performer/utils/consts.dart';
+import 'package:performer/utils/enums.dart';
+import 'package:performer/utils/methods.dart';
 
 class AuthProvider extends ChangeNotifier {
   User? _user;

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:supervisor/models/task.dart';
-import 'package:supervisor/utils/attribute.dart';
-import 'package:supervisor/utils/consts.dart';
-import 'package:supervisor/utils/enums.dart';
-import 'package:supervisor/utils/methods.dart';
-import 'package:supervisor/widgets/gap.dart';
-import 'package:supervisor/widgets/primary_text.dart';
+import 'package:performer/models/task.dart';
+import 'package:performer/utils/attribute.dart';
+import 'package:performer/utils/consts.dart';
+import 'package:performer/utils/enums.dart';
+import 'package:performer/utils/methods.dart';
+import 'package:performer/widgets/gap.dart';
+import 'package:performer/widgets/primary_text.dart';
 
 class TaskWidget extends StatefulWidget {
   final Task task;
